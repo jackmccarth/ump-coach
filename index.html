@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert Game</title>
+</head>
+<body>
+    <h1>Insert Game</h1>
+    <form action="/insert_game" method="post">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="">
+
+        <label for="league">League:</label>
+        <select id="league" name="league">
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <label for="round">Round:</label>
+        <select id="round" name="round">
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <label for="ground">Ground:</label>
+        <select id="ground" name="ground">
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <label for="home_team">Home Team:</label>
+        <select id="home_team" name="home_team">
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <label for="away_team">Away Team:</label>
+        <select id="away_team" name="away_team">
+            <!-- Options will be populated by JavaScript -->
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // Fetch the options for each select from the server
+        fetch('/get_options')
+            .then(response => response.json())
+            .then(data => {
+                populateSelect('league', data.leagues);
+                populateSelect('round', data.rounds);
+                populateSelect('ground', data.grounds);
+                populateSelect('home_team', data.teams);
+                populateSelect('away_team', data.teams);
+            });
+
+        function populateSelect(id, options) {
+            const select = document.getElementById(id);
+            options.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.id;
+                opt.text = option.description;
+                select.add(opt);
+            });
+        }
+    </script>
+</body>
+</html>
